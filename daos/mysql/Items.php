@@ -211,7 +211,7 @@ class Items extends Database {
                     items.id, datetime, items.title AS title, content, unread, starred, source, thumbnail, icon, uid, link, sources.title as sourcetitle, sources.tags as tags
                    FROM items, sources 
                    WHERE items.source=sources.id '.$where.' 
-                   ORDER BY items.datetime DESC 
+                   ORDER BY items.datetime
                    LIMIT ' . $options['offset'] . ', ' . $options['items'], $params);
     }
     

@@ -85,10 +85,7 @@ selfoss.events.entries = function(e) {
                 }
             }
             
-            // load images not on mobile devices
-            if(selfoss.isMobile()==false) {
-                content.lazyLoadImages();
-            }
+            content.lazyLoadImages();
         } 
     });
 

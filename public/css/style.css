@@ -905,13 +905,25 @@ body.publicmode.notloggedin .entry-unread {
             background-size:96px 40px;
         }
 
+        #nav-mobile-next {
+            position:fixed;
+            width:48px;
+            height:48px;
+            left:100%;
+            top:100%;
+            margin-left: -53px;
+            margin-top: -53px;
+            z-index: 2;
+            background:url(images/nav-mobile-next.png) no-repeat;
+            background-size:48px;
+        }
+
         #nav-mobile-settings {
             position:absolute;
             width:29px;
             height:29px;
-            left:100%;
+            left:0%;
             top:10px;
-            margin-left:-48px;
             background:url(images/nav-mobile-settings.png) no-repeat;
             background-size:29px 29px;
         }

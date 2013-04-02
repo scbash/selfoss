@@ -119,7 +119,6 @@ selfoss.events.navigation = function() {
     
     // Next button on mobile
     $('#nav-mobile-next').unbind('click').click(function () {
-        $('.entry.selected.unread .entry-unread').click();
         selfoss.shortcuts.nextprev('next', true);
     });
 

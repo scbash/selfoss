@@ -385,7 +385,8 @@ input {
         padding-bottom:7px;
     }
     
-        .entry.unread  .entry-title {
+        .entry.unread  .entry-title,
+        .entry.selected .entry-title {
             color:#333333;
         }
     

@@ -32,6 +32,7 @@ $f3->set('auth', new \helpers\Authentication());
 $f3->set('js', array(
     'public/js/jquery-1.8.3.min.js',
     'public/js/jquery-ui-1.10.0.custom.js',
+    'public/js/jquery.touchSwipe.min.js',
     'public/js/jquery.mCustomScrollbar.min.js',
     'public/js/jquery.mousewheel.js',
     'public/js/lazy-image-loader.js',

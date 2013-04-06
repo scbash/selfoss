@@ -44,7 +44,9 @@ selfoss.events.entries = function(e) {
             // show fullscreen
             var fullscreen = $('#fullscreen-entry');
             fullscreen.html('<div id="entrr'+parent.attr('id').substr(5)+'" class="entry fullscreen">'+parent.html()+'</div>');
-            fullscreen.show();
+            if(!fullscreen.hasClass('entry-animate')) {
+                fullscreen.show();
+            }
             
             // set events for fullscreen
             selfoss.events.entriesToolbar(fullscreen);
@@ -53,7 +55,7 @@ selfoss.events.entries = function(e) {
             fullscreen.find('.entry-tags-tag').colorByBrightness();
     
             // set events for closing fullscreen
-            fullscreen.find('.entry, .entry-close').click(function(e) {
+            fullscreen.find('.entry-close').click(function(e) {
                 if(e.target.tagName.toLowerCase()=="a")
                     return;
                 content.show();
@@ -62,13 +64,96 @@ selfoss.events.entries = function(e) {
                 fullscreen.hide();
             });
             
+            // bind entry content to a TouchSwipe object, listening for swipes
+            fullscreen.find('.entry-content').swipe({
+                // swipe to advance to navigate forward/backward
+                swipe:function(event, direction, distance, duration, fingerCount) {
+                    var fullscreen = $('#fullscreen-entry');
+                    if(fullscreen.is(':visible')) {
+                        // find the next entry
+                        var id = fullscreen.find('.entry').attr('id').substr(5);
+                        var old = $("#entry"+id);
+                        var other_way;
+                        if(direction == 'left') {
+                            // lifted directly from shortcuts.nextprev
+                            if(old.length==0) {
+                                current = $('.entry:eq(0)');
+                            } else {
+                                current = old.next().length==0 ? old : old.next();
+                            }
+                            other_way = 'right';
+                        }
+                        else if(direction == 'right') {
+                            if(old.length==0) {
+                                current = $('.entry:eq(0)');
+                            } else {
+                                current = old.prev().length==0 ? old : old.prev();
+                            }
+                            other_way = 'left';
+                        }
+
+                        if(current == old) {
+                            // If we're at the end of the stream, just bounce back
+                            fullscreen.animate({left:0},300);
+                        }
+                        else {
+                            // close the currently open entry
+                            fullscreen.addClass('entry-animate');
+                            fullscreen.find('.entry-close').click();
+
+                            // open the next entry
+                            current.click();
+                            fullscreen.css({left: '0px'});
+
+                            // Animate next entry on
+                            fullscreen.show('slide',
+                                            { direction: other_way,
+                                              distance: 0.5*fullscreen.width() },
+                                            250,
+                                            function() {
+                                                fullscreen.find('.entry-content').lazyLoadImages()
+                                            }
+                            );
+                            fullscreen.removeClass('entry-animate');
+                        }
+                    }
+                },
+
+                // animate div during swipe
+                swipeStatus:function(event, phase, direction, distance) {
+                    var fullscreen = $('#fullscreen-entry');
+                    if(phase=='move' && (direction=='left' || direction=='right')) {
+                        if(direction == 'left')
+                            fullscreen.animate({left:'-'+distance+'px'}, 0)  // zero time, just follow input
+                        else if(direction == 'right')
+                            fullscreen.animate({left:distance+'px'}, 0)
+                    }
+                    else if(phase == 'cancel') {
+                        fullscreen.animate({left:0},300);
+                    }
+                    else if(phase =='end') {
+                        // if the user didn't trigger a swipe, reset back to start
+                        if(distance < fullscreen.find('.entry-content').swipe('option', 'threshold'))
+                            fullscreen.animate({left:0},300);
+                    }
+                },
+
+                // distance required to be declared a swipe
+                threshold: 100,
+
+                // allow the entry to scroll vertically (i.e. pass vertical swipe events to browser)
+                allowPageScroll: 'vertical',
+            });
+
             // automark as read
             if(autoMarkAsRead) {
                 fullscreen.find('.entry-unread').click();
             }
 
             // load any images
-            fullscreen.find('.entry-content').lazyLoadImages()
+            if(!fullscreen.hasClass('entry-animate')) {
+                fullscreen.find('.entry-content').lazyLoadImages()
+            }
 
         // open entry content
         } else {

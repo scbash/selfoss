@@ -66,6 +66,10 @@ selfoss.events.entries = function(e) {
             if(autoMarkAsRead) {
                 fullscreen.find('.entry-unread').click();
             }
+
+            // load any images
+            fullscreen.find('.entry-content').lazyLoadImages()
+
         // open entry content
         } else {
             var content = parent.find('.entry-content');

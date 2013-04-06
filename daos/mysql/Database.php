@@ -54,7 +54,7 @@ class Database {
                         unread BOOL NOT NULL ,
                         starred BOOL NOT NULL ,
                         source INT NOT NULL ,
-                        uid VARCHAR(255) NOT NULL,
+                        uid VARCHAR(4096) NOT NULL,
                         link TEXT NOT NULL,
                         INDEX (source)
                     ) ENGINE = MYISAM DEFAULT CHARSET=utf8;

@@ -842,10 +842,6 @@ body.publicmode.notloggedin .entry-unread {
         margin-left:-7px;
     }
     
-        .entry-toolbar .entry-loadimages {
-            display:block;
-        }
-   
     .entry-toolbar .entry-newwindow {
         display:none;
     }

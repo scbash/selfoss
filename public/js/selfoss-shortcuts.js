@@ -106,9 +106,7 @@ selfoss.shortcuts = {
         // open?
         if(open) {
             var content = current.find('.entry-content');
-            // load images not on mobile devices
-            if(selfoss.isMobile()==false)
-                content.lazyLoadImages();
+            content.lazyLoadImages();
             // anonymize
             selfoss.anonymize(content);
             content.show();
